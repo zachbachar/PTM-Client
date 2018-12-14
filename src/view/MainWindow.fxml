@@ -31,7 +31,8 @@
       </MenuBar>
    </top>
    <center>
-      <PipeGameDisplayer fx:id="pipeGameDisplayer" height="300.0" width="300.0" BorderPane.alignment="CENTER" />
+      <PipeGameDisplayer fx:id="pipeGameDisplayer"
+	height="300.0" width="300.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox prefHeight="23.0" prefWidth="393.0" BorderPane.alignment="CENTER">
