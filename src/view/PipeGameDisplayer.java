@@ -2,9 +2,12 @@ package view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class PipeGameDisplayer extends Canvas{
 
@@ -64,8 +67,8 @@ public class PipeGameDisplayer extends Canvas{
 			Image sPipe = null;
 			Image aPipe = null;
 			
-			sPipe = new Image("./resources/straightPipe.jpg");
-			aPipe = new Image("./resources/angeledPipe.jpg");
+			sPipe = new Image("./straightPipe.jpg");
+			aPipe = new Image("./angeledPipe.jpg");
 			
 			gc.clearRect(0, 0, W, H);
 			
@@ -75,14 +78,22 @@ public class PipeGameDisplayer extends Canvas{
 						if(aPipe == null | sPipe == null)
 							gc.fillRect(j*w, i*h, w, h);
 						else {
+							if (gameData[i][j].equals("s"))
+								gc.fillRect(j*w, i*h, w, h);
+							else if (gameData[i][j].equals("g"))
+								gc.fillRect(j*w, i*h, w, h);
+							else if (gameData[i][j].equals("|"))
+								gc.drawImage(sPipe, j * w, i * h, w, h);
+							if (gameData[i][j].equals("-")) 
+								gc.drawImage(rotate(sPipe, 90), j * w, i * h, w, h);
 							if (gameData[i][j].equals("L"))
-								gc.drawImage(aPipe, j * w, i * h, w, h);
+								gc.drawImage(rotate(aPipe, 90), j * w, i * h, w, h);
 							else if (gameData[i][j].equals("F")) //rotate once
-								gc.drawImage(aPipe, j * w, i * h, w, h);
+								gc.drawImage(rotate(aPipe, 180), j * w, i * h, w, h);
 							else if (gameData[i][j].equals("7")) //rotate twice
-								gc.drawImage(aPipe, j * w, i * h, w, h);
+								gc.drawImage(rotate(aPipe, 270), j * w, i * h, w, h);
 							else if(gameData[i][j].equals("J")) //rotate three times
-								gc.drawImage(aPipe, j*w, i*h, w, h);
+								gc.drawImage(rotate(aPipe, 360), j*w, i*h, w, h);
 						}
 					}
 				}
@@ -91,5 +102,13 @@ public class PipeGameDisplayer extends Canvas{
 			
 			
 		}
+	}
+	
+	private Image rotate(Image img, double rotation) {
+		ImageView iv = new ImageView(img);
+		iv.setRotate(rotation);
+		SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+		return iv.snapshot(params, null);
 	}
 }
