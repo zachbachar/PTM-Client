@@ -18,15 +18,18 @@ public class MainWindowController implements Initializable, Observer {
 	PipeGameViewModel vm;
 	
 	String[][] pipeData = {
-			{ "s", "-", "-", "F" },
-			{ "L", "|", "-", "L" },
-			{ "L", "|", "-", "g" }};
+			{ "s", "7", "-", "F" },
+			{ "-", "L", "-", "7" },
+			{ "J", "|", "-", "g" }};
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pipeGameDisplayer.setGameData(pipeData);
+		
+		
 	}
-	
+
+
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
 	}

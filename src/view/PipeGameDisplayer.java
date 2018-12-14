@@ -66,13 +66,13 @@ public class PipeGameDisplayer extends Canvas{
 			GraphicsContext gc = getGraphicsContext2D();
 			Image sPipe = null;
 			Image aPipe = null;
-			Image start = null;
-			Image goal = null;
+			//Image start = null;
+			//Image goal = null;
 			
-			sPipe = new Image("./straightPipe.jpg");
-			aPipe = new Image("./angeledPipe.jpg");
-			start = new Image("./start.jpg");
-			goal = new Image("./goal.jpg");
+			sPipe = new Image("/straightPipe.jpg");
+			aPipe = new Image("/angeledPipe.jpg");
+			//start = new Image("/start.jpg");
+			//goal = new Image("/goal.jpg");
 			
 			gc.clearRect(0, 0, W, H);
 			
@@ -83,20 +83,20 @@ public class PipeGameDisplayer extends Canvas{
 							gc.fillRect(j*w, i*h, w, h);
 						else {
 							if (gameData[i][j].equals("s"))
-								gc.drawImage(start, j * w, i * h, w, h);
+								gc.fillRect(j*w, i*h, w, h);
 							else if (gameData[i][j].equals("g"))
-								gc.drawImage(goal, j * w, i * h, w, h);
+								gc.fillRect(j*w, i*h, w, h);
 							else if (gameData[i][j].equals("|"))
 								gc.drawImage(sPipe, j * w, i * h, w, h);
 							if (gameData[i][j].equals("-")) 
 								gc.drawImage(rotate(sPipe, 90), j * w, i * h, w, h);
 							if (gameData[i][j].equals("L"))
 								gc.drawImage(aPipe, j * w, i * h, w, h);
-							else if (gameData[i][j].equals("F")) //
+							else if (gameData[i][j].equals("F")) 
 								gc.drawImage(rotate(aPipe, 90), j * w, i * h, w, h);
-							else if (gameData[i][j].equals("7")) //rotate twice
+							else if (gameData[i][j].equals("7")) 
 								gc.drawImage(rotate(aPipe, 180), j * w, i * h, w, h);
-							else if(gameData[i][j].equals("J")) //rotate three times
+							else if(gameData[i][j].equals("J")) 
 								gc.drawImage(rotate(aPipe, 270), j*w, i*h, w, h);
 						}
 					}
