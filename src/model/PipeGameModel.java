@@ -64,7 +64,7 @@ public class PipeGameModel  {
 
 			String line;
 			while ((line = bufferReader.readLine()) != null) {
-				stringBuilder.append(line).append('\n');
+				stringBuilder.append(line).append(System.lineSeparator());
 			}
 			this.gameData.set(stringBuilder.toString());
 			bufferReader.close();
