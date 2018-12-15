@@ -66,15 +66,18 @@ public class PipeGameDisplayer extends Canvas{
 			GraphicsContext gc = getGraphicsContext2D();
 			Image sPipe = null;
 			Image aPipe = null;
-			//Image start = null;
-			//Image goal = null;
+			Image start = null;
+			Image goal = null;
+			Image bg = null;
 			
-			sPipe = new Image("/straightPipe.jpg");
-			aPipe = new Image("/angeledPipe.jpg");
-			//start = new Image("/start.jpg");
-			//goal = new Image("/goal.jpg");
+			sPipe = new Image("file:resources/straightPipe.jpg");
+			aPipe = new Image("file:resources/angeledPipe.jpg");
+			start = new Image("file:resources/start.jpg");
+			goal = new Image("file:resources/goal.jpg");
+			bg = new Image("file:resources/bg.jpg");
 			
 			gc.clearRect(0, 0, W, H);
+			gc.drawImage(bg, 0, 0, W, H);
 			
 			for (int i = 0; i < gameData.length; i++) {
 				for (int j = 0; j < gameData[i].length; j++) {
@@ -83,9 +86,11 @@ public class PipeGameDisplayer extends Canvas{
 							gc.fillRect(j*w, i*h, w, h);
 						else {
 							if (gameData[i][j] == 's')
-								gc.fillRect(j*w, i*h, w, h);
+								//gc.fillRect(j*w, i*h, w, h);
+								gc.drawImage(start, j * w, i * h, w, h);
 							else if (gameData[i][j] == 'g')
-								gc.fillRect(j*w, i*h, w, h);
+								//gc.fillRect(j*w, i*h, w, h);
+								gc.drawImage(goal, j * w, i * h, w, h);
 							else if (gameData[i][j] == '|')
 								gc.drawImage(sPipe, j * w, i * h, w, h);
 							if (gameData[i][j] == '-') 
