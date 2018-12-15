@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -8,6 +9,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import viewModel.PipeGameViewModel;
 
 
@@ -65,6 +67,39 @@ public class MainWindowController implements Initializable {
 					vm.rotatePipe(x, y);
 				}
 		);
+	}
+	
+	public void openFile() {
+		System.out.println("Open File.");
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Stage File");
+		fileChooser.setInitialDirectory(new File("./resources"));
+
+		FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("Text Files", "*.txt");
+		fileChooser.getExtensionFilters().add(txtFilter);
+		fileChooser.setSelectedExtensionFilter(txtFilter);
+		File choosen = fileChooser.showOpenDialog(null);
+
+		if (choosen != null) {
+			System.out.println(choosen.getName());
+			vm.loadGame(choosen.getAbsolutePath());
+		}
+	}
+
+	public void saveFile() {
+		System.out.println("Saving into File.");
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Choose location");
+		FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("Text Files", "*.txt");
+		fc.getExtensionFilters().add(txtFilter);
+		fc.setSelectedExtensionFilter(txtFilter);
+
+		File chosenFile = fc.showSaveDialog(null);
+
+		if (chosenFile == null) {
+			return;
+		}
+		vm.saveGame(chosenFile);
 	}
 
 	
