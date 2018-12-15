@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import viewModel.PipeGameViewModel;
 
 @SuppressWarnings("deprecation")
@@ -32,6 +33,16 @@ public class MainWindowController implements Initializable, Observer {
 
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
+		
+		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				(MouseEvent click) -> {
+					double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
+					double h = pipeGameDisplayer.getHeight() / pipeData.length;
+					int x = (int) (click.getX() / w);
+					int y = (int) (click.getY() / h);
+					vm.rotatePipe(x, y);
+				}
+		);
 	}
 
 	@Override

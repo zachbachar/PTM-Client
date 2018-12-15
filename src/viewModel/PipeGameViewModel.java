@@ -20,5 +20,10 @@ public class PipeGameViewModel extends Observable implements Observer {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
+	public void rotatePipe(int x, int y) {
+		pgm.rotatePipe(x, y);
+	}
 
 }
