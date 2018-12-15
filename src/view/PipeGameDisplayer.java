@@ -11,18 +11,18 @@ import javafx.scene.paint.Color;
 
 public class PipeGameDisplayer extends Canvas{
 
-	String[][] gameData;
+	char[][] gameData;
 	StringProperty straightPipeFileName;
 	StringProperty angeledPipeFileName;
 
 
-	public String[][] getGameData() {
+	public char[][] getGameData() {
 		return gameData;
 	}
 
 
 
-	public void setGameData(String[][] gameData) {
+	public void setGameData(char[][] gameData) {
 		this.gameData = gameData;
 		redraw();
 	}
@@ -78,33 +78,30 @@ public class PipeGameDisplayer extends Canvas{
 			
 			for (int i = 0; i < gameData.length; i++) {
 				for (int j = 0; j < gameData[i].length; j++) {
-					if (gameData[i][j] != " ") {
+					if (gameData[i][j] != ' ') {
 						if(aPipe == null | sPipe == null)
 							gc.fillRect(j*w, i*h, w, h);
 						else {
-							if (gameData[i][j].equals("s"))
+							if (gameData[i][j] == 's')
 								gc.fillRect(j*w, i*h, w, h);
-							else if (gameData[i][j].equals("g"))
+							else if (gameData[i][j] == 'g')
 								gc.fillRect(j*w, i*h, w, h);
-							else if (gameData[i][j].equals("|"))
+							else if (gameData[i][j] == '|')
 								gc.drawImage(sPipe, j * w, i * h, w, h);
-							if (gameData[i][j].equals("-")) 
+							if (gameData[i][j] == '-') 
 								gc.drawImage(rotate(sPipe, 90), j * w, i * h, w, h);
-							if (gameData[i][j].equals("L"))
+							if (gameData[i][j] == 'L')
 								gc.drawImage(aPipe, j * w, i * h, w, h);
-							else if (gameData[i][j].equals("F")) 
+							else if (gameData[i][j] == 'F') 
 								gc.drawImage(rotate(aPipe, 90), j * w, i * h, w, h);
-							else if (gameData[i][j].equals("7")) 
+							else if (gameData[i][j] == '7') 
 								gc.drawImage(rotate(aPipe, 180), j * w, i * h, w, h);
-							else if(gameData[i][j].equals("J")) 
+							else if(gameData[i][j] == 'J') 
 								gc.drawImage(rotate(aPipe, 270), j*w, i*h, w, h);
 						}
 					}
 				}
 			}
-
-			
-			
 		}
 	}
 	

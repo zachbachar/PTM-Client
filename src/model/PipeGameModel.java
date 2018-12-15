@@ -1,37 +1,55 @@
 package model;
 
-import java.util.Observable;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-@SuppressWarnings("deprecation")
-public class PipeGameModel extends Observable  {
+public class PipeGameModel  {
 
-	String gameData;
-	
-	
+	public StringProperty gameData;
+
 
 	public PipeGameModel() {
-		
+		gameData = new SimpleStringProperty();	
 	}
-
-	
-
-	public String getGameData() {
-		return gameData;
-	}
-
-
-
-	public void setGameData(String gameData) {
-		this.gameData = gameData;
-	}
-
-
-
-
 
 	public void rotatePipe(int x, int y) {
-		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder(gameData.get());
+		int size = sb.indexOf(System.lineSeparator()) + 1;
+		int index = (y * size) + x;
+
+		switch (sb.charAt(index)) {
+		case '-':
+			sb.setCharAt(index, '|');
+			break;
+
+		case '|':
+			sb.setCharAt(index, '-');
+			break;
 		
+		case 'L':
+			sb.setCharAt(index, 'F');
+			break;
+
+		case 'F':
+			sb.setCharAt(index, '7');
+			break;
+
+		case '7':
+			sb.setCharAt(index, 'J');
+			break;
+
+		case 'J':
+			sb.setCharAt(index, 'L');
+			break;
+
+		default:
+			break;
+		}
+
+		gameData.set(sb.toString());
+
 	}
+
+
 
 }

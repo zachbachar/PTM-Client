@@ -1,24 +1,18 @@
 package viewModel;
 
-import java.util.Observable;
-import java.util.Observer;
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import model.PipeGameModel;
 
-@SuppressWarnings("deprecation")
-public class PipeGameViewModel extends Observable implements Observer {
+public class PipeGameViewModel  {
 
 	PipeGameModel pgm;
+	public StringProperty gameData;
 	
 	public PipeGameViewModel(PipeGameModel _pgm) {
 		pgm = _pgm;
-	}
-	
-	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
+		gameData = new SimpleStringProperty();
+		gameData.bindBidirectional(pgm.gameData);
 	}
 	
 	

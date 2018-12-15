@@ -1,38 +1,64 @@
 package view;
 
 import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import viewModel.PipeGameViewModel;
 
-@SuppressWarnings("deprecation")
-public class MainWindowController implements Initializable, Observer {
+
+public class MainWindowController implements Initializable {
 
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
-	
+	StringProperty gameData;
 	PipeGameViewModel vm;
 	
-	String[][] pipeData = {
-			{ "s", "7", "-", "F" },
-			{ "-", "L", "-", "7" },
-			{ "J", "|", "-", "g" }};
+	char[][] pipeData = {
+			{ 's', ' ', '-', 'F' },
+			{ '-', 'L', '-', '7' },
+			{ 'J', '|', '-', 'g' }};
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pipeGameDisplayer.setGameData(pipeData);
 		
 		
+		
+		//vm.setGameData(pipeData);
 	}
 
 
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
+		gameData = new SimpleStringProperty();
+		vm.gameData.bindBidirectional(gameData);
+		
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < pipeData.length; i++) {
+			for (int j = 0; j < pipeData[i].length; j++) {
+				sb.append(pipeData[i][j]);
+			}
+			sb.append(System.lineSeparator());
+		}
+		gameData.set(sb.toString());
+		
+		gameData.addListener((val, s, t) -> {
+			ArrayList<char[]> board = new ArrayList<>();
+			String[] rows = gameData.get().split(System.lineSeparator());
+
+			for (String row : rows) {
+				board.add(row.toCharArray());
+			}
+			pipeData = board.toArray(new char[board.size()][]);
+
+			
+			pipeGameDisplayer.setGameData(pipeData);
+		});
 		
 		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED,
 				(MouseEvent click) -> {
@@ -45,10 +71,6 @@ public class MainWindowController implements Initializable, Observer {
 		);
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 }
