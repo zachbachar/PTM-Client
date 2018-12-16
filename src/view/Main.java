@@ -6,10 +6,14 @@ import model.PipeGameModel;
 import viewModel.PipeGameViewModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	MediaPlayer mediaPlayer;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -21,7 +25,10 @@ public class Main extends Application {
 			BorderPane root= fxl.load(getClass().getResource("MainWindow.fxml").openStream());
 			MainWindowController mwc=fxl.getController(); // View
 			mwc.setViewModel(vm);
-			//vm.addObserver(mwc);
+			//vm.addObserver(mwc);//			mwc.playSound("BackroundTheme.wav");
+			Media musicFile = new Media("file:///Users/dnylsgl/git/PTM-Client/src/view/BackroundTheme.wav");
+			mediaPlayer = new MediaPlayer(musicFile);
+			mediaPlayer.setAutoPlay(true);
 			
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
