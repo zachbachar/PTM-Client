@@ -29,6 +29,7 @@ public class Main extends Application {
 			Media musicFile = new Media("file:///Users/dnylsgl/git/PTM-Client/src/view/BackroundTheme.wav");
 			mediaPlayer = new MediaPlayer(musicFile);
 			mediaPlayer.setAutoPlay(true);
+			mediaPlayer.setCycleCount(10);
 			
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
