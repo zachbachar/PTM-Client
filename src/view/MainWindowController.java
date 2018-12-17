@@ -5,14 +5,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import model.PipeGameMainTheme;
-import model.Theme;
+import model.PipeGameThemeModel;
 import viewModel.PipeGameViewModel;
 
 
@@ -22,7 +23,8 @@ public class MainWindowController implements Initializable {
 	PipeGameDisplayer pipeGameDisplayer;
 	StringProperty gameData;
 	PipeGameViewModel vm;
-	Theme theme;
+	PipeGameThemeModel theme;
+	IntegerProperty themeType;
 	
 	char[][] pipeData = {
 			{ 's', ' ', '-', 'F' },
@@ -31,9 +33,33 @@ public class MainWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		theme = new PipeGameMainTheme();
+		initTheme();
 		pipeGameDisplayer.setTheme(theme);
 		pipeGameDisplayer.setGameData(pipeData);
+	}
+	
+	private void initTheme() {
+		themeType = new SimpleIntegerProperty();
+		theme = new PipeGameThemeModel();
+		theme.themeType.bindBidirectional(this.themeType);
+		themeType.addListener((val, s, t) ->{
+			theme.loadMedia();
+		});
+		themeType.set(1);
+	}
+	
+	public void changeTheme() {
+		switch (themeType.get()) {
+		case 1:
+			themeType.set(2);
+			break;
+		case 2:
+			themeType.set(1);
+			break;
+
+		default:
+			break;		
+		}
 	}
 
 
