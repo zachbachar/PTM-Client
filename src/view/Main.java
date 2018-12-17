@@ -19,7 +19,6 @@ public class Main extends Application {
 		try {
 			PipeGameModel pgm = new PipeGameModel();
 			PipeGameViewModel vm = new PipeGameViewModel(pgm);
-			//pgm.addObserver(vm);
 			
 			FXMLLoader fxl=new FXMLLoader();
 			BorderPane root= fxl.load(getClass().getResource("MainWindow.fxml").openStream());
