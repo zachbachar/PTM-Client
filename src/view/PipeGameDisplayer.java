@@ -8,23 +8,23 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import model.Theme;
+import model.PipeGameThemeModel;
 
 public class PipeGameDisplayer extends Canvas{
 
 	char[][] gameData;
 	StringProperty straightPipeFileName;
 	StringProperty angeledPipeFileName;
-	Theme theme;
+	PipeGameThemeModel theme;
 
 
-	public Theme getTheme() {
+	public PipeGameThemeModel getTheme() {
 		return theme;
 	}
 
 
 
-	public void setTheme(Theme theme) {
+	public void setTheme(PipeGameThemeModel theme) {
 		this.theme = theme;
 	}
 
