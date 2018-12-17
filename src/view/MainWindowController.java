@@ -1,16 +1,9 @@
 package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import model.PipeGameMainTheme;
+import model.Theme;
 import viewModel.PipeGameViewModel;
 
 
@@ -27,6 +22,7 @@ public class MainWindowController implements Initializable {
 	PipeGameDisplayer pipeGameDisplayer;
 	StringProperty gameData;
 	PipeGameViewModel vm;
+	Theme theme;
 	
 	char[][] pipeData = {
 			{ 's', ' ', '-', 'F' },
@@ -35,6 +31,8 @@ public class MainWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		theme = new PipeGameMainTheme();
+		pipeGameDisplayer.setTheme(theme);
 		pipeGameDisplayer.setGameData(pipeData);
 	}
 

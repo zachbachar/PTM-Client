@@ -8,12 +8,26 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import model.Theme;
 
 public class PipeGameDisplayer extends Canvas{
 
 	char[][] gameData;
 	StringProperty straightPipeFileName;
 	StringProperty angeledPipeFileName;
+	Theme theme;
+
+
+	public Theme getTheme() {
+		return theme;
+	}
+
+
+
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+	}
+
 
 
 	public char[][] getGameData() {
@@ -64,17 +78,18 @@ public class PipeGameDisplayer extends Canvas{
 			double h = H / gameData.length;
 			
 			GraphicsContext gc = getGraphicsContext2D();
-			Image sPipe = null;
-			Image aPipe = null;
-			Image start = null;
-			Image goal = null;
-			Image bg = null;
 			
-			sPipe = new Image("file:resources/straightPipe.jpg");
-			aPipe = new Image("file:resources/angeledPipe.jpg");
-			start = new Image("file:resources/start.jpg");
-			goal = new Image("file:resources/goal.jpg");
-			bg = new Image("file:resources/bg.jpg");
+			Image sPipe = theme.getStraightPipeImage();
+			Image aPipe = theme.getAngeledPipeImage();
+			Image start = theme.getStartImage();
+			Image goal = theme.getGoalImage();
+			Image bg = theme.getBackgroundImage();
+//			
+//			sPipe = new Image("file:resources/straightPipe.jpg");
+//			aPipe = new Image("file:resources/angeledPipe.jpg");
+//			start = new Image("file:resources/start.jpg");
+//			goal = new Image("file:resources/goal.jpg");
+//			bg = new Image("file:resources/bg.jpg");
 			
 			gc.clearRect(0, 0, W, H);
 			gc.drawImage(bg, 0, 0, W, H);

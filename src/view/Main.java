@@ -26,7 +26,7 @@ public class Main extends Application {
 			MainWindowController mwc=fxl.getController(); // View
 			mwc.setViewModel(vm);
 			//vm.addObserver(mwc);//			mwc.playSound("BackroundTheme.wav");
-			Media musicFile = new Media("file:///Users/dnylsgl/git/PTM-Client/src/view/BackroundTheme.wav");
+			Media musicFile = new Media("file:///Users/zachbachar/eclipse-workspace/PTM-Client/src/view/BackroundTheme.wav");
 			mediaPlayer = new MediaPlayer(musicFile);
 			mediaPlayer.setAutoPlay(true);
 			mediaPlayer.setCycleCount(10);
