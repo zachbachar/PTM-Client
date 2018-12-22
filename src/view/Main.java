@@ -1,8 +1,10 @@
 package view;
 	
+import client.ClientModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.PipeGameModel;
+import model.PipeGameThemeModel;
 import viewModel.PipeGameViewModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -18,14 +20,13 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			PipeGameModel pgm = new PipeGameModel();
-			PipeGameViewModel vm = new PipeGameViewModel(pgm);
-			//pgm.addObserver(vm);
+			ClientModel client = new ClientModel();
+			PipeGameViewModel vm = new PipeGameViewModel(pgm, client);
 			
 			FXMLLoader fxl=new FXMLLoader();
 			BorderPane root= fxl.load(getClass().getResource("MainWindow.fxml").openStream());
 			MainWindowController mwc=fxl.getController(); // View
 			mwc.setViewModel(vm);
-			//vm.addObserver(mwc);//			mwc.playSound("BackroundTheme.wav");
 			Media musicFile = new Media("file:///Users/zachbachar/eclipse-workspace/PTM-Client/src/view/BackroundTheme.wav");
 			mediaPlayer = new MediaPlayer(musicFile);
 			mediaPlayer.setAutoPlay(true);

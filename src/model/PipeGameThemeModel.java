@@ -17,6 +17,8 @@ public class PipeGameThemeModel{
 	
 	public PipeGameThemeModel() {
 		themeType = new SimpleIntegerProperty();
+		themeType.set(1);
+		loadMedia();
 	}
 	
 	public void loadMedia() {

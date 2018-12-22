@@ -6,51 +6,37 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client {
-	
-	int port = 6400;
-	String ip = "localhost";
-	
-	
-	
-	public int getPort() {
-		return port;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class ClientModel {
+
+	public IntegerProperty port;
+	public StringProperty ip;
+
+	public ClientModel() {
+		port = new SimpleIntegerProperty();
+		ip = new SimpleStringProperty();
+		port.set(6400);
+		ip.set("localhost");
 	}
-
-
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-
-
-	public String getIp() {
-		return ip;
-	}
-
-
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-
-
+	
 	public String sendToServer(String message) {
 
 		try {
-			Socket theServer = new Socket(ip, port);
+			Socket theServer = new Socket(ip.get(), port.get());
 			System.out.println("Connected to server");
 			BufferedReader serverInput = new BufferedReader(new InputStreamReader(theServer.getInputStream()));
 			PrintWriter outToServer = new PrintWriter(theServer.getOutputStream());
-			
+
 			String[] parsedMessage = message.split(System.lineSeparator());
 			for (String line : parsedMessage) {
 				outToServer.println(line);
 				outToServer.flush();
 			}
-			
+
 			outToServer.println("done");
 			outToServer.flush();
 
@@ -60,7 +46,7 @@ public class Client {
 				sb.append(line);
 				sb.append(System.lineSeparator());
 			}
-			
+
 			// Close everything
 			serverInput.close();
 			outToServer.close();
@@ -70,7 +56,7 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 
 	}
