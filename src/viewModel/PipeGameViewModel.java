@@ -10,11 +10,14 @@ public class PipeGameViewModel  {
 
 	PipeGameModel pgm;
 	public StringProperty gameData;
+	public StringProperty solution;
 	
 	public PipeGameViewModel(PipeGameModel _pgm) {
 		pgm = _pgm;
 		gameData = new SimpleStringProperty();
 		gameData.bindBidirectional(pgm.gameData);
+		solution = new SimpleStringProperty();
+		solution.bindBidirectional(pgm.solution);
 	}
 	
 	

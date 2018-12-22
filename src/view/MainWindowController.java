@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import client.Client;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,9 +23,11 @@ public class MainWindowController implements Initializable {
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
 	StringProperty gameData;
+	StringProperty solution;
 	PipeGameViewModel vm;
 	PipeGameThemeModel theme;
 	IntegerProperty themeType;
+	Client client;
 	
 	char[][] pipeData = {
 			{ 's', ' ', '-', 'F' },
@@ -34,6 +37,7 @@ public class MainWindowController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		initTheme();
+		client = new Client();
 		pipeGameDisplayer.setTheme(theme);
 		pipeGameDisplayer.setGameData(pipeData);
 	}
@@ -66,7 +70,9 @@ public class MainWindowController implements Initializable {
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
 		gameData = new SimpleStringProperty();
+		solution = new SimpleStringProperty();
 		vm.gameData.bindBidirectional(gameData);
+		vm.solution.bindBidirectional(solution);
 		
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < pipeData.length; i++) {
@@ -90,15 +96,33 @@ public class MainWindowController implements Initializable {
 			pipeGameDisplayer.setGameData(pipeData);
 		});
 		
+		solution.addListener((val, s, t) -> {
+			String[] sol = solution.get().split(System.lineSeparator());
+			for (String line : sol) {
+				String[] str = line.split(",");
+				int y = Integer.parseInt(str[0]);
+				int x = Integer.parseInt(str[1]);
+				int times = Integer.parseInt(str[2]);
+				for (int i = 0; i < times; i++) {
+					vm.rotatePipe(x, y);
+				}
+			}
+		});
+		
 		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED,
 				(MouseEvent click) -> {
 					double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
 					double h = pipeGameDisplayer.getHeight() / pipeData.length;
 					int x = (int) (click.getX() / w);
 					int y = (int) (click.getY() / h);
+					System.out.println("clicked: " + x + "," + y);
 					vm.rotatePipe(x, y);
 				}
 		);
+	}
+	
+	public void solve() {
+		solution.set(client.sendToServer(gameData.get()));
 	}
 	
 	public void openFile() {

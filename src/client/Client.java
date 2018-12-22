@@ -7,35 +7,71 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
+	
+	int port = 6400;
+	String ip = "localhost";
+	
+	
+	
+	public int getPort() {
+		return port;
+	}
 
-	public static void main(String[] args) {
 
-		System.out.println("**** Client Side ****");
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+
+
+	public String getIp() {
+		return ip;
+	}
+
+
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+
+
+	public String sendToServer(String message) {
+
 		try {
-			Socket theServer = new Socket("localhost", 6400);
+			Socket theServer = new Socket(ip, port);
 			System.out.println("Connected to server");
-			BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(theServer.getInputStream()));
+			BufferedReader serverInput = new BufferedReader(new InputStreamReader(theServer.getInputStream()));
 			PrintWriter outToServer = new PrintWriter(theServer.getOutputStream());
-
-			String line;
-			while (!(line = inFromUser.readLine()).equals("done")) {
+			
+			String[] parsedMessage = message.split(System.lineSeparator());
+			for (String line : parsedMessage) {
 				outToServer.println(line);
 				outToServer.flush();
-				System.out.println(inFromServer.readLine());
 			}
+			
 			outToServer.println("done");
 			outToServer.flush();
 
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while (!(line = serverInput.readLine()).equals("done")) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+			}
+			
 			// Close everything
-			inFromServer.close();
+			serverInput.close();
 			outToServer.close();
-			inFromUser.close();
 			theServer.close();
+			return sb.toString();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 
 	}
 }

@@ -12,10 +12,12 @@ import javafx.beans.property.StringProperty;
 public class PipeGameModel  {
 
 	public StringProperty gameData;
+	public StringProperty solution;
 
 
 	public PipeGameModel() {
-		gameData = new SimpleStringProperty();	
+		gameData = new SimpleStringProperty();
+		solution = new SimpleStringProperty();
 	}
 
 	public void rotatePipe(int x, int y) {
