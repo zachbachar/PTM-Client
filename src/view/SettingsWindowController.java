@@ -73,18 +73,28 @@ public class SettingsWindowController implements Initializable {
 				themeType.set(Integer.parseInt(checked.getId()));
 				System.out.println("checked: " + checked.getId());
 			}
-		});
+		});	
 		
+		portField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                		portField.setText(oldValue);
+                }
+            }
+        });
 	}
+	
+	
 	
 	public void dissmiss() {
 		stage.close();
 	}
 	
 	public void save(){
-		if(ipField.getText() != null)
+		if(!ipField.getText().equals(""))
 			ip.set(ipField.getText());
-		if(portField.getText() != null)
+		if(!portField.getText().equals(""))
 			port.set(Integer.parseInt(portField.getText()));
 	}
 }
