@@ -4,7 +4,6 @@ import client.ClientModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.PipeGameModel;
-import model.PipeGameThemeModel;
 import viewModel.PipeGameViewModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
