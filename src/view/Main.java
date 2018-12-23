@@ -27,16 +27,16 @@ public class Main extends Application {
 			BorderPane root= fxl.load(getClass().getResource("MainWindow.fxml").openStream());
 			MainWindowController mwc=fxl.getController(); // View
 			mwc.setViewModel(vm);
-			Media musicFile = new Media("file:///Users/zachbachar/eclipse-workspace/PTM-Client/src/view/BackroundTheme.wav");
-			mediaPlayer = new MediaPlayer(musicFile);
+			Media audio = new Media(getClass().getResource("BackroundTheme.wav").toString());
+			mediaPlayer = new MediaPlayer(audio);
 			mediaPlayer.setAutoPlay(true);
 			mediaPlayer.setCycleCount(10);
-			
-			Scene scene = new Scene(root,400,400);
+
+			Scene scene = new Scene(root, 400, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
