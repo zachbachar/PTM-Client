@@ -84,12 +84,6 @@ public class PipeGameDisplayer extends Canvas{
 			Image start = theme.getStartImage();
 			Image goal = theme.getGoalImage();
 			Image bg = theme.getBackgroundImage();
-//			
-//			sPipe = new Image("file:resources/straightPipe.jpg");
-//			aPipe = new Image("file:resources/angeledPipe.jpg");
-//			start = new Image("file:resources/start.jpg");
-//			goal = new Image("file:resources/goal.jpg");
-//			bg = new Image("file:resources/bg.jpg");
 			
 			gc.clearRect(0, 0, W, H);
 			gc.drawImage(bg, 0, 0, W, H);
@@ -101,10 +95,8 @@ public class PipeGameDisplayer extends Canvas{
 							gc.fillRect(j*w, i*h, w, h);
 						else {
 							if (gameData[i][j] == 's')
-								//gc.fillRect(j*w, i*h, w, h);
 								gc.drawImage(start, j * w, i * h, w, h);
 							else if (gameData[i][j] == 'g')
-								//gc.fillRect(j*w, i*h, w, h);
 								gc.drawImage(goal, j * w, i * h, w, h);
 							else if (gameData[i][j] == '|')
 								gc.drawImage(sPipe, j * w, i * h, w, h);
