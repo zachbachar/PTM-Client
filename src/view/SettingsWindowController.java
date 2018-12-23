@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -78,8 +79,17 @@ public class SettingsWindowController implements Initializable {
 		portField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,10}")) {
                 		portField.setText(oldValue);
+                }
+            }
+        });
+		
+		ipField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,3}([\\.]\\d{0,3})?([\\.]\\d{0,3})?([\\.]\\d{0,3})?")) {
+                		ipField.setText(oldValue);
                 }
             }
         });
@@ -96,5 +106,6 @@ public class SettingsWindowController implements Initializable {
 			ip.set(ipField.getText());
 		if(!portField.getText().equals(""))
 			port.set(Integer.parseInt(portField.getText()));
+		dissmiss();
 	}
 }
