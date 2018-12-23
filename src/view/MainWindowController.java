@@ -42,17 +42,6 @@ public class MainWindowController implements Initializable {
 		pipeGameDisplayer.setGameData(pipeData);
 	}
 	
-//	private void initTheme() {
-//		themeType = new SimpleIntegerProperty();
-//		theme = new PipeGameThemeModel();
-//		theme.themeType.bindBidirectional(this.themeType);
-//		themeType.addListener((val, s, t) ->{
-//			//theme.loadMedia();
-//			vm.changeTheme();
-//		});
-//		themeType.set(1);
-//	}
-//	
 	public void changeTheme() {
 		vm.changeTheme();
 	}
