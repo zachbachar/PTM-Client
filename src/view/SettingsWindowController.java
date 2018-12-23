@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -29,6 +31,8 @@ public class SettingsWindowController implements Initializable {
 	RadioButton dark;
 	PipeGameViewModel vm;
 	IntegerProperty themeType;
+	StringProperty ip;
+	IntegerProperty port;
 	
 	Stage stage;
 	
@@ -39,7 +43,10 @@ public class SettingsWindowController implements Initializable {
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
 		themeType.bindBidirectional(vm.themeType);
-		
+		ip = new SimpleStringProperty();
+		vm.ip.bindBidirectional(ip);
+		port = new SimpleIntegerProperty();
+		vm.port.bindBidirectional(port);
 	}
 	
 	@Override
@@ -75,6 +82,9 @@ public class SettingsWindowController implements Initializable {
 	}
 	
 	public void save(){
-		
+		if(ipField.getText() != null)
+			ip.set(ipField.getText());
+		if(portField.getText() != null)
+			port.set(Integer.parseInt(portField.getText()));
 	}
 }
