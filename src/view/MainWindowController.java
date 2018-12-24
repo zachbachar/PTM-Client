@@ -158,6 +158,9 @@ public class MainWindowController implements Initializable {
 		}
 		vm.saveGame(chosenFile);
 	}
+	public void mute() {
+		pipeGameDisplayer.mute();
+	}
 	
 	
 }

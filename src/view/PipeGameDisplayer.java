@@ -1,5 +1,7 @@
 package view;
 
+import java.nio.file.Paths;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.SnapshotParameters;
@@ -7,6 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import model.PipeGameThemeModel;
 
@@ -16,16 +20,24 @@ public class PipeGameDisplayer extends Canvas{
 	StringProperty straightPipeFileName;
 	StringProperty angeledPipeFileName;
 	PipeGameThemeModel theme;
-
+	boolean isMuted = false;
+	MediaPlayer mediaPlayer;
 
 	public PipeGameThemeModel getTheme() {
 		return theme;
 	}
 
 
-
+//	Media audio = new Media(getClass().getResource("BackroundTheme.wav").toString());
 	public void setTheme(PipeGameThemeModel theme) {
 		this.theme = theme;
+		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString());
+		if(mediaPlayer != null) {
+			mediaPlayer.stop();
+		}
+		mediaPlayer = new MediaPlayer(audio);
+		mediaPlayer.setAutoPlay(true);
+		mediaPlayer.setCycleCount(10);
 	}
 
 
@@ -160,5 +172,19 @@ public class PipeGameDisplayer extends Canvas{
 		super.setWidth(width);
 		super.setHeight(height);
 		this.redraw();
+	}
+
+
+
+	public void mute() {
+		if(!isMuted) {
+			mediaPlayer.setVolume(0.0);
+			isMuted = true;
+		}
+		else {
+			mediaPlayer.setVolume(100.0);
+			isMuted = false;
+		}
+		
 	}
 }
