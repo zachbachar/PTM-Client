@@ -3,7 +3,9 @@ package viewModel;
 import java.io.File;
 
 import client.ClientModel;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,6 +22,7 @@ public class PipeGameViewModel  {
 	public StringProperty ip;
 	public IntegerProperty port;
 	public IntegerProperty themeType;
+	public BooleanProperty isGoal;
 	
 	public PipeGameViewModel(PipeGameModel _pgm, ClientModel _client) {
 		pgm = _pgm;
@@ -32,6 +35,8 @@ public class PipeGameViewModel  {
 		ip.bindBidirectional(client.ip);
 		port = new SimpleIntegerProperty();
 		port.bindBidirectional(client.port);
+		isGoal = new SimpleBooleanProperty();
+		isGoal.bind(pgm.isGoal);
 	}
 	
 	public PipeGameThemeModel getTheme() {

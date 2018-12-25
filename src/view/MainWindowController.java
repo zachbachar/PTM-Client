@@ -5,21 +5,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.PipeGameThemeModel;
 import viewModel.PipeGameViewModel;
-
 
 public class MainWindowController implements Initializable {
 
@@ -30,22 +36,19 @@ public class MainWindowController implements Initializable {
 	PipeGameViewModel vm;
 	PipeGameThemeModel theme;
 	IntegerProperty themeType;
-	
-	char[][] pipeData = {
-			{ 's', ' ', '-', 'F' },
-			{ '-', 'L', '-', '7' },
-			{ 'J', '|', '-', 'g' }};
+	BooleanProperty isGoal;
+
+	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pipeGameDisplayer.setTheme(new PipeGameThemeModel());
 		pipeGameDisplayer.setGameData(pipeData);
 	}
-	
+
 	public void changeTheme() {
 		vm.changeTheme();
 	}
-
 
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
@@ -56,7 +59,10 @@ public class MainWindowController implements Initializable {
 		solution = new SimpleStringProperty();
 		vm.gameData.bindBidirectional(gameData);
 		vm.solution.bindBidirectional(solution);
-		
+		isGoal = new SimpleBooleanProperty();
+		isGoal.bind(vm.isGoal);
+		winningListener();
+
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < pipeData.length; i++) {
 			for (int j = 0; j < pipeData[i].length; j++) {
@@ -65,7 +71,7 @@ public class MainWindowController implements Initializable {
 			sb.append(System.lineSeparator());
 		}
 		gameData.set(sb.toString());
-		
+
 		gameData.addListener((val, s, t) -> {
 			ArrayList<char[]> board = new ArrayList<>();
 			String[] rows = gameData.get().split(System.lineSeparator());
@@ -75,15 +81,14 @@ public class MainWindowController implements Initializable {
 			}
 			pipeData = board.toArray(new char[board.size()][]);
 
-			
 			pipeGameDisplayer.setGameData(pipeData);
 		});
-		
-		themeType.addListener((val, s, t) ->{
-			//theme.loadMedia();
+
+		themeType.addListener((val, s, t) -> {
+			// theme.loadMedia();
 			pipeGameDisplayer.redraw();
 		});
-		
+
 		solution.addListener((val, s, t) -> {
 			String[] sol = solution.get().split(System.lineSeparator());
 			for (String line : sol) {
@@ -96,28 +101,26 @@ public class MainWindowController implements Initializable {
 				}
 			}
 		});
-		
-		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED,
-				(MouseEvent click) -> {
-					double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
-					double h = pipeGameDisplayer.getHeight() / pipeData.length;
-					int x = (int) (click.getX() / w);
-					int y = (int) (click.getY() / h);
-					System.out.println("clicked: " + x + "," + y);
-					vm.rotatePipe(x, y);
-				}
-		);
+
+		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent click) -> {
+			double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
+			double h = pipeGameDisplayer.getHeight() / pipeData.length;
+			int x = (int) (click.getX() / w);
+			int y = (int) (click.getY() / h);
+			System.out.println("clicked: " + x + "," + y);
+			vm.rotatePipe(x, y);
+		});
 	}
-	
+
 	public void solve() {
 		solution.set(vm.sendToServer(gameData.get()));
 	}
-	
+
 	public void showSettingsWindow() throws IOException {
-		FXMLLoader fxl=new FXMLLoader();
-		BorderPane root= fxl.load(getClass().getResource("SettingsWindow.fxml").openStream());
+		FXMLLoader fxl = new FXMLLoader();
+		BorderPane root = fxl.load(getClass().getResource("SettingsWindow.fxml").openStream());
 		SettingsWindowController swc = fxl.getController();
-		Scene scene = new Scene(root,300,400);
+		Scene scene = new Scene(root, 300, 400);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		Stage stage = new Stage();
 		stage.setScene(scene);
@@ -125,7 +128,7 @@ public class MainWindowController implements Initializable {
 		swc.setViewModel(vm);
 		stage.show();
 	}
-	
+
 	public void openFile() {
 		System.out.println("Open File.");
 		FileChooser fileChooser = new FileChooser();
@@ -158,9 +161,33 @@ public class MainWindowController implements Initializable {
 		}
 		vm.saveGame(chosenFile);
 	}
+
 	public void mute() {
 		pipeGameDisplayer.mute();
 	}
-	
-	
+
+	public void alertWonMessage() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Congratulations");
+		alert.setHeaderText(null);
+		alert.setContentText("You Win!");
+		alert.showAndWait();
+	}
+
+	public void winningListener() {
+		isGoal.addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue) {
+					alertWonMessage();
+				} else if (newValue == null) {
+					return;
+				}
+
+			}
+
+		});
+	}
+
 }

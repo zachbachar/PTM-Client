@@ -13,6 +13,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import model.PipeGameThemeModel;
+import static javafx.scene.media.AudioClip.INDEFINITE;
 
 public class PipeGameDisplayer extends Canvas{
 
@@ -37,7 +38,7 @@ public class PipeGameDisplayer extends Canvas{
 		}
 		mediaPlayer = new MediaPlayer(audio);
 		mediaPlayer.setAutoPlay(true);
-		mediaPlayer.setCycleCount(10);
+		mediaPlayer.setCycleCount(INDEFINITE);
 	}
 
 

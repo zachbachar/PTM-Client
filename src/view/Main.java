@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
-	MediaPlayer mediaPlayer;
+	
 	
 	@Override
 	public void start(Stage primaryStage) {
