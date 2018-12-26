@@ -34,7 +34,10 @@
    <bottom>
       <HBox prefHeight="23.0" prefWidth="393.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="22.0" prefWidth="43.0" text="Label" />
+            <Label prefHeight="22.0" text="Moves: " />
+         </children>
+         <children>
+            <Label fx:id="movesLabel" prefHeight="22.0" prefWidth="43.0" text="0"  />
          </children>
       </HBox>
    </bottom>

@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -31,6 +32,9 @@ public class MainWindowController implements Initializable {
 
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
+	@FXML
+	Label movesLabel;
+	Integer movesCounter = 0;
 	StringProperty gameData;
 	StringProperty solution;
 	StringProperty errorMessage;
@@ -112,6 +116,8 @@ public class MainWindowController implements Initializable {
 			int x = (int) (click.getX() / w);
 			int y = (int) (click.getY() / h);
 			System.out.println("clicked: " + x + "," + y);
+			movesCounter++;
+			movesLabel.setText(movesCounter.toString());
 			vm.rotatePipe(x, y);
 		});
 		
