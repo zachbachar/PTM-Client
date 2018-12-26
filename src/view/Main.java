@@ -7,8 +7,6 @@ import model.PipeGameModel;
 import viewModel.PipeGameViewModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.fxml.FXMLLoader;
 
 

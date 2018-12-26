@@ -33,10 +33,12 @@ public class MainWindowController implements Initializable {
 	PipeGameDisplayer pipeGameDisplayer;
 	StringProperty gameData;
 	StringProperty solution;
+	StringProperty errorMessage;
 	PipeGameViewModel vm;
 	PipeGameThemeModel theme;
 	IntegerProperty themeType;
 	BooleanProperty isGoal;
+	Stage stage;
 
 	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
 
@@ -57,8 +59,10 @@ public class MainWindowController implements Initializable {
 		vm.themeType.bindBidirectional(this.themeType);
 		gameData = new SimpleStringProperty();
 		solution = new SimpleStringProperty();
+		errorMessage = new SimpleStringProperty();
 		vm.gameData.bindBidirectional(gameData);
 		vm.solution.bindBidirectional(solution);
+		vm.errorMessage.bindBidirectional(errorMessage);
 		isGoal = new SimpleBooleanProperty();
 		isGoal.bind(vm.isGoal);
 		winningListener();
@@ -110,10 +114,22 @@ public class MainWindowController implements Initializable {
 			System.out.println("clicked: " + x + "," + y);
 			vm.rotatePipe(x, y);
 		});
+		
+		errorMessage.addListener((val, s, t) -> {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Error!");
+			alert.setHeaderText(null);
+			alert.setContentText(errorMessage.get());
+			alert.showAndWait();
+		});
 	}
 
 	public void solve() {
 		solution.set(vm.sendToServer(gameData.get()));
+	}
+	
+	public void closeApp() {
+		System.exit(1);
 	}
 
 	public void showSettingsWindow() throws IOException {

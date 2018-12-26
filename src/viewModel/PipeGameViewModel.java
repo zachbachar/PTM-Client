@@ -21,6 +21,7 @@ public class PipeGameViewModel  {
 	public StringProperty solution;
 	public StringProperty ip;
 	public IntegerProperty port;
+	public StringProperty errorMessage;
 	public IntegerProperty themeType;
 	public BooleanProperty isGoal;
 	
@@ -35,6 +36,8 @@ public class PipeGameViewModel  {
 		ip.bindBidirectional(client.ip);
 		port = new SimpleIntegerProperty();
 		port.bindBidirectional(client.port);
+		errorMessage = new SimpleStringProperty();
+		errorMessage.bindBidirectional(client.errorMessage);
 		isGoal = new SimpleBooleanProperty();
 		isGoal.bind(pgm.isGoal);
 	}

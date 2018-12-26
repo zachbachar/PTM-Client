@@ -14,19 +14,13 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" text="Open" onAction="#openFile" />
-              <MenuItem mnemonicParsing="false" text="Solve" onAction="#solve"/>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Change Theme" onAction="#changeTheme" />
+              <MenuItem mnemonicParsing="false" text="Close" onAction="#closeApp"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
+            	  <MenuItem mnemonicParsing="false" text="Solve" onAction="#solve"/>
             	  <MenuItem mnemonicParsing="false" text="Settings"  onAction="#showSettingsWindow"/>
-              <MenuItem mnemonicParsing="false" text="About" />
               <MenuItem mnemonicParsing="false" text="Mute"  onAction="#mute"/>
             </items>
           </Menu>

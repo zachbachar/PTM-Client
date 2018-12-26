@@ -15,10 +15,12 @@ public class ClientModel {
 
 	public IntegerProperty port;
 	public StringProperty ip;
+	public StringProperty errorMessage;
 
 	public ClientModel() {
 		port = new SimpleIntegerProperty();
 		ip = new SimpleStringProperty();
+		errorMessage = new SimpleStringProperty();
 		port.set(6400);
 		ip.set("localhost");
 	}
@@ -54,6 +56,7 @@ public class ClientModel {
 			return sb.toString();
 
 		} catch (IOException e) {
+			errorMessage.set("Cannot Connect To Server");
 			e.printStackTrace();
 		}
 
