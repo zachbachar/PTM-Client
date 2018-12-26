@@ -17,8 +17,6 @@ public class PipeGameThemeModel{
 	
 	public PipeGameThemeModel() {
 		themeType = new SimpleIntegerProperty();
-		themeType.set(1);
-		loadMedia();
 	}
 	
 	public void loadMedia() {
@@ -27,6 +25,7 @@ public class PipeGameThemeModel{
 		startImage = new Image("file:resources/start" + themeType.get() + ".jpg");
 		goalImage = new Image("file:resources/goal" + themeType.get() + ".jpg");
 		bgImage = new Image("file:resources/bg" + themeType.get() + ".jpg");
+		//sound = new Media
 	}
 	
 	
@@ -59,6 +58,10 @@ public class PipeGameThemeModel{
 	
 	public Image getGoalImage() {
 		return goalImage;
+	}
+	
+	public void playMusic() {
+		
 	}
 
 }

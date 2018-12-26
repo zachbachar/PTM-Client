@@ -32,7 +32,7 @@ public class PipeGameDisplayer extends Canvas{
 //	Media audio = new Media(getClass().getResource("BackroundTheme.wav").toString());
 	public void setTheme(PipeGameThemeModel theme) {
 		this.theme = theme;
-		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString());
+		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString()); // getBackgroundSound();
 		if(mediaPlayer != null) {
 			mediaPlayer.stop();
 		}

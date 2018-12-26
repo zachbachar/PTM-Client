@@ -27,8 +27,20 @@ public class PipeGameModel  {
 		isGoal.set(false);
 	}
 	
+	public boolean isStartorGoal(int x, int y) {
+		StringBuilder sb = new StringBuilder(gameData.get());
+		int size = sb.indexOf(System.lineSeparator()) + 1;
+		int index = (y * size) + x;
+		if(sb.charAt(index) == 's' || sb.charAt(index) == 'g')
+			return true;
+		return false;
+	}
+	
 
 	public void rotatePipe(int x, int y) {
+		if(isStartorGoal(x, y))
+			return;
+		
 		StringBuilder sb = new StringBuilder(gameData.get());
 		int size = sb.indexOf(System.lineSeparator()) + 1;
 		int index = (y * size) + x;

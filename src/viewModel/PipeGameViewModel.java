@@ -24,6 +24,7 @@ public class PipeGameViewModel  {
 	public StringProperty errorMessage;
 	public IntegerProperty themeType;
 	public BooleanProperty isGoal;
+	public BooleanProperty redraw;
 	
 	public PipeGameViewModel(PipeGameModel _pgm, ClientModel _client) {
 		pgm = _pgm;
@@ -40,6 +41,8 @@ public class PipeGameViewModel  {
 		errorMessage.bindBidirectional(client.errorMessage);
 		isGoal = new SimpleBooleanProperty();
 		isGoal.bind(pgm.isGoal);
+		redraw = new SimpleBooleanProperty();
+		redraw.set(false);
 	}
 	
 	public PipeGameThemeModel getTheme() {
@@ -53,6 +56,8 @@ public class PipeGameViewModel  {
 	
 	public void changeTheme() {
 		theme.loadMedia();
+		redraw.set(!redraw.get());
+		//theme.playMusic()
 	}
 	
 	public String sendToServer(String message) {
@@ -69,6 +74,10 @@ public class PipeGameViewModel  {
 
 	public void saveGame(File file) {
 		this.pgm.saveGame(file);
+	}
+	
+	public boolean isStartOrGoal(int x, int y) {
+		return pgm.isStartorGoal(x, y);
 	}
 
 }

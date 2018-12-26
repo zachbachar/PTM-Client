@@ -33,8 +33,8 @@ public class SettingsWindowController implements Initializable {
 	IntegerProperty themeType;
 	StringProperty ip;
 	IntegerProperty port;
-	
 	Stage stage;
+	boolean first = true;
 	
 	public void setStage(Stage _stage) {
 		stage = _stage;
@@ -42,35 +42,34 @@ public class SettingsWindowController implements Initializable {
 	
 	public void setViewModel(PipeGameViewModel _vm) {
 		vm = _vm;
+		themeType = new SimpleIntegerProperty();
 		themeType.bindBidirectional(vm.themeType);
 		ip = new SimpleStringProperty();
 		vm.ip.bindBidirectional(ip);
 		port = new SimpleIntegerProperty();
 		vm.port.bindBidirectional(port);
+		switch (themeType.get()) {
+		case 1:
+			themeGroup.selectToggle(dark);
+			break;
+		case 2:
+			themeGroup.selectToggle(bright);
+			break;
+		default:
+			break;
+		}
+		first = false;
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		themeType = new SimpleIntegerProperty();
-		themeType.addListener((val, s, t) ->{
-			vm.changeTheme();
-			switch (Integer.parseInt(t.toString())) {
-			case 1:
-				themeGroup.selectToggle(bright);
-				break;
-			case 2:
-				themeGroup.selectToggle(dark);
-				break;
-			default:
-				break;
-			}
-		});
-		
 		themeGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			@Override
 			public void changed(ObservableValue<? extends Toggle> arg0, Toggle arg1, Toggle arg2) {
 				RadioButton checked = (RadioButton) themeGroup.getSelectedToggle();
 				themeType.set(Integer.parseInt(checked.getId()));
+				if (!first)
+					vm.changeTheme();
 				System.out.println("checked: " + checked.getId());
 			}
 		});	

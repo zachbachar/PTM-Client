@@ -42,6 +42,7 @@ public class MainWindowController implements Initializable {
 	PipeGameThemeModel theme;
 	IntegerProperty themeType;
 	BooleanProperty isGoal;
+	BooleanProperty redraw;
 	Stage stage;
 
 	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
@@ -61,6 +62,8 @@ public class MainWindowController implements Initializable {
 		vm.setTheme(pipeGameDisplayer.getTheme());
 		themeType = new SimpleIntegerProperty();
 		vm.themeType.bindBidirectional(this.themeType);
+		themeType.set(1);
+		vm.changeTheme();
 		gameData = new SimpleStringProperty();
 		solution = new SimpleStringProperty();
 		errorMessage = new SimpleStringProperty();
@@ -69,6 +72,8 @@ public class MainWindowController implements Initializable {
 		vm.errorMessage.bindBidirectional(errorMessage);
 		isGoal = new SimpleBooleanProperty();
 		isGoal.bind(vm.isGoal);
+		redraw = new SimpleBooleanProperty();
+		vm.redraw.bindBidirectional(redraw);
 		winningListener();
 
 		StringBuffer sb = new StringBuffer();
@@ -91,9 +96,8 @@ public class MainWindowController implements Initializable {
 
 			pipeGameDisplayer.setGameData(pipeData);
 		});
-
-		themeType.addListener((val, s, t) -> {
-			// theme.loadMedia();
+		
+		redraw.addListener((val, s, t) -> {
 			pipeGameDisplayer.redraw();
 		});
 
@@ -116,8 +120,10 @@ public class MainWindowController implements Initializable {
 			int x = (int) (click.getX() / w);
 			int y = (int) (click.getY() / h);
 			System.out.println("clicked: " + x + "," + y);
-			movesCounter++;
-			movesLabel.setText(movesCounter.toString());
+			if(!vm.isStartOrGoal(x, y)) {
+				movesCounter++;
+				movesLabel.setText(movesCounter.toString());
+			}
 			vm.rotatePipe(x, y);
 		});
 		
@@ -137,6 +143,7 @@ public class MainWindowController implements Initializable {
 	public void closeApp() {
 		System.exit(1);
 	}
+	
 
 	public void showSettingsWindow() throws IOException {
 		FXMLLoader fxl = new FXMLLoader();

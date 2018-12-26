@@ -36,12 +36,12 @@
             </Label>
             <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
                <children>
-                  <RadioButton fx:id="bright" id="1" mnemonicParsing="false" text="Bright" toggleGroup="$themeGroup">
+                  <RadioButton fx:id="bright" id="2" mnemonicParsing="false" text="Bright" toggleGroup="$themeGroup">
                      <toggleGroup>
                         <ToggleGroup fx:id="themeGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="dark" id="2" mnemonicParsing="false" text="Dark" toggleGroup="$themeGroup" />
+                  <RadioButton fx:id="dark" id="1" mnemonicParsing="false" text="Dark" toggleGroup="$themeGroup" />
                </children>
             </HBox>
          </children>
