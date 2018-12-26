@@ -45,7 +45,7 @@ public class MainWindowController implements Initializable {
 	BooleanProperty redraw;
 	Stage stage;
 
-	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
+	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

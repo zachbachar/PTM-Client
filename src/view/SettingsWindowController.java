@@ -59,6 +59,9 @@ public class SettingsWindowController implements Initializable {
 			break;
 		}
 		first = false;
+		
+		ipField.setText("127.0.0.1");
+		portField.setText("6400");
 	}
 	
 	@Override
@@ -92,8 +95,6 @@ public class SettingsWindowController implements Initializable {
             }
         });
 	}
-	
-	
 	
 	public void dissmiss() {
 		stage.close();
