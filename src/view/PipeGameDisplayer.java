@@ -29,16 +29,15 @@ public class PipeGameDisplayer extends Canvas{
 	}
 
 
-//	Media audio = new Media(getClass().getResource("BackroundTheme.wav").toString());
 	public void setTheme(PipeGameThemeModel theme) {
 		this.theme = theme;
-		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString()); // getBackgroundSound();
-		if(mediaPlayer != null) {
-			mediaPlayer.stop();
-		}
-		mediaPlayer = new MediaPlayer(audio);
-		mediaPlayer.setAutoPlay(true);
-		mediaPlayer.setCycleCount(INDEFINITE);
+//		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString()); // getBackgroundSound();
+//		if(mediaPlayer != null) {
+//			mediaPlayer.stop();
+//		}
+//		mediaPlayer = new MediaPlayer(audio);
+//		mediaPlayer.setAutoPlay(true);
+//		mediaPlayer.setCycleCount(INDEFINITE);
 	}
 
 
@@ -177,15 +176,5 @@ public class PipeGameDisplayer extends Canvas{
 
 
 
-	public void mute() {
-		if(!isMuted) {
-			mediaPlayer.setVolume(0.0);
-			isMuted = true;
-		}
-		else {
-			mediaPlayer.setVolume(100.0);
-			isMuted = false;
-		}
-		
-	}
+	
 }

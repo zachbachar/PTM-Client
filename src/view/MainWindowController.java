@@ -46,6 +46,16 @@ public class MainWindowController implements Initializable {
 	Stage stage;
 
 	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
+//	char[][] pipeData = {
+//			{'s', '-', '-', '-', '7', 'J', 'L', 'F' , '7'},
+//			{'7', '7', '7', '7', '7', '7', '7', '7' , '7'},
+//			{'7', '7', '7', ' ', ' ', ' ', '7', '7' , '7'},
+//			{'7', '7', '7', '7', '|', '7', '7', '7' , '7'},
+//			{'7', '7', '7', '7', 'L', '7', '7', '7' , '7'},
+//			{'7', '7', '7', '7', '7', '7', '7', '7' , '7'},
+//			{'7', '7', '7', '7', '|', '7', '7', '7' , '7'},
+//			{'7', '7', '-', '-', '-', '-', '-', '-' , 'g'},
+//	};
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -192,7 +202,7 @@ public class MainWindowController implements Initializable {
 	}
 
 	public void mute() {
-		pipeGameDisplayer.mute();
+		vm.muteSound();
 	}
 
 	public void alertWonMessage() {

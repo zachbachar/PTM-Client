@@ -57,8 +57,13 @@ public class PipeGameViewModel  {
 	public void changeTheme() {
 		theme.loadMedia();
 		redraw.set(!redraw.get());
-		//theme.playMusic()
+		theme.playMusic();
 	}
+	
+	public void muteSound() {
+		theme.mute();
+	}
+	
 	
 	public String sendToServer(String message) {
 		return client.sendToServer(message);
@@ -79,5 +84,6 @@ public class PipeGameViewModel  {
 	public boolean isStartOrGoal(int x, int y) {
 		return pgm.isStartorGoal(x, y);
 	}
+	
 
 }
