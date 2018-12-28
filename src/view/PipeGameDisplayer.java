@@ -1,7 +1,5 @@
 package view;
 
-import java.nio.file.Paths;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.SnapshotParameters;
@@ -9,11 +7,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import model.PipeGameThemeModel;
-import static javafx.scene.media.AudioClip.INDEFINITE;
 
 public class PipeGameDisplayer extends Canvas{
 
@@ -31,13 +27,6 @@ public class PipeGameDisplayer extends Canvas{
 
 	public void setTheme(PipeGameThemeModel theme) {
 		this.theme = theme;
-//		Media audio = new Media(Paths.get("./resources/BackroundTheme.wav").toUri().toString()); // getBackgroundSound();
-//		if(mediaPlayer != null) {
-//			mediaPlayer.stop();
-//		}
-//		mediaPlayer = new MediaPlayer(audio);
-//		mediaPlayer.setAutoPlay(true);
-//		mediaPlayer.setCycleCount(INDEFINITE);
 	}
 
 
