@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,6 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -112,17 +114,33 @@ public class MainWindowController implements Initializable {
 		});
 
 		solution.addListener((val, s, t) -> {
-			String[] sol = solution.get().split(System.lineSeparator());
-			for (String line : sol) {
-				String[] str = line.split(",");
-				int y = Integer.parseInt(str[0]);
-				int x = Integer.parseInt(str[1]);
-				int times = Integer.parseInt(str[2]);
-				for (int i = 0; i < times; i++) {
-					vm.rotatePipe(x, y);
-				}
-			}
+	     Task<Void> task = new Task<Void>() {
+	    		
+	            @Override
+	            protected Void call() {
+	            	String[] sol = solution.get().split(System.lineSeparator());
+					for (String line : sol) {
+						String[] str = line.split(",");
+						int y = Integer.parseInt(str[0]);
+						int x = Integer.parseInt(str[1]);
+						int times = Integer.parseInt(str[2]);
+						for(int j=0;j<times;j++) {
+							Platform.runLater(()-> vm.rotatePipe(x, y));
+							try {
+								Thread.sleep(250);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					System.out.println("Solving.");
+	        			vm.sendToServer(gameData.get());
+						return null;
+	            }
+	        };
+	        new Thread(task).start();
 		});
+	        
 
 		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent click) -> {
 			double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
@@ -205,11 +223,11 @@ public class MainWindowController implements Initializable {
 		vm.muteSound();
 	}
 
-	public void alertWonMessage() {
+	public void alertWonMessage()  {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Congratulations");
 		alert.setHeaderText(null);
-		alert.setContentText("You Win!");
+		alert.setContentText("You win!");
 		alert.showAndWait();
 	}
 
