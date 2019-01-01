@@ -47,17 +47,9 @@ public class MainWindowController implements Initializable {
 	BooleanProperty redraw;
 	Stage stage;
 
-	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { '-', 'L', '-', '7' }, { 'J', '|', '-', 'g' } };
-//	char[][] pipeData = {
-//			{'s', '-', '-', '-', '7', 'J', 'L', 'F' , '7'},
-//			{'7', '7', '7', '7', '7', '7', '7', '7' , '7'},
-//			{'7', '7', '7', ' ', ' ', ' ', '7', '7' , '7'},
-//			{'7', '7', '7', '7', '|', '7', '7', '7' , '7'},
-//			{'7', '7', '7', '7', 'L', '7', '7', '7' , '7'},
-//			{'7', '7', '7', '7', '7', '7', '7', '7' , '7'},
-//			{'7', '7', '7', '7', '|', '7', '7', '7' , '7'},
-//			{'7', '7', '-', '-', '-', '-', '-', '-' , 'g'},
-//	};
+	char[][] pipeData = { { 's', ' ', '-', 'F' }, { '-', 'L', '-', '7' }, { '-', 'L', '-', '7' },
+			{ 'J', '|', '-', 'g' } };
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -108,24 +100,24 @@ public class MainWindowController implements Initializable {
 
 			pipeGameDisplayer.setGameData(pipeData);
 		});
-		
+
 		redraw.addListener((val, s, t) -> {
 			pipeGameDisplayer.redraw();
 		});
 
 		solution.addListener((val, s, t) -> {
-	     Task<Void> task = new Task<Void>() {
-	    		
-	            @Override
-	            protected Void call() {
-	            	String[] sol = solution.get().split(System.lineSeparator());
+			Task<Void> task = new Task<Void>() {
+
+				@Override
+				protected Void call() {
+					String[] sol = solution.get().split(System.lineSeparator());
 					for (String line : sol) {
 						String[] str = line.split(",");
 						int y = Integer.parseInt(str[0]);
 						int x = Integer.parseInt(str[1]);
 						int times = Integer.parseInt(str[2]);
-						for(int j=0;j<times;j++) {
-							Platform.runLater(()-> vm.rotatePipe(x, y));
+						for (int j = 0; j < times; j++) {
+							Platform.runLater(() -> vm.rotatePipe(x, y));
 							try {
 								Thread.sleep(250);
 							} catch (InterruptedException e) {
@@ -133,14 +125,12 @@ public class MainWindowController implements Initializable {
 							}
 						}
 					}
-					System.out.println("Solving.");
-	        			vm.sendToServer(gameData.get());
-						return null;
-	            }
-	        };
-	        new Thread(task).start();
+					vm.sendToServer(gameData.get());
+					return null;
+				}
+			};
+			new Thread(task).start();
 		});
-	        
 
 		pipeGameDisplayer.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent click) -> {
 			double w = pipeGameDisplayer.getWidth() / pipeData[0].length;
@@ -148,13 +138,13 @@ public class MainWindowController implements Initializable {
 			int x = (int) (click.getX() / w);
 			int y = (int) (click.getY() / h);
 			System.out.println("clicked: " + x + "," + y);
-			if(!vm.isStartOrGoal(x, y)) {
+			if (!vm.isStartOrGoal(x, y)) {
 				movesCounter++;
 				movesLabel.setText(movesCounter.toString());
 			}
 			vm.rotatePipe(x, y);
 		});
-		
+
 		errorMessage.addListener((val, s, t) -> {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Error!");
@@ -167,11 +157,10 @@ public class MainWindowController implements Initializable {
 	public void solve() {
 		solution.set(vm.sendToServer(gameData.get()));
 	}
-	
+
 	public void closeApp() {
 		System.exit(1);
 	}
-	
 
 	public void showSettingsWindow() throws IOException {
 		FXMLLoader fxl = new FXMLLoader();
@@ -223,7 +212,7 @@ public class MainWindowController implements Initializable {
 		vm.muteSound();
 	}
 
-	public void alertWonMessage()  {
+	public void alertWonMessage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Congratulations");
 		alert.setHeaderText(null);
