@@ -1,3 +1,5 @@
 s |F
 -F-7
 J|-g
+seconds:3
+moves:9

@@ -6,9 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,7 +22,10 @@ public class PipeGameModel  {
 	public StringProperty gameData;
 	public StringProperty solution;
 	public BooleanProperty isGoal;
+	public IntegerProperty moves;
+	public IntegerProperty seconds;
 	public enum from {start, goal, right, left, up, down};
+	private Timer timer;
 	
 
 	public PipeGameModel() {
@@ -25,6 +33,10 @@ public class PipeGameModel  {
 		solution = new SimpleStringProperty();
 		isGoal = new SimpleBooleanProperty();
 		isGoal.set(false);
+		moves = new SimpleIntegerProperty(0);
+		seconds = new SimpleIntegerProperty(0);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(secondsTimer(), 1000, 1000);
 	}
 	
 	public boolean isStartorGoal(int x, int y) {
@@ -86,11 +98,27 @@ public class PipeGameModel  {
 			bufferReader = new BufferedReader(new FileReader(fileName));
 
 			String line;
+			boolean hasSec = false, hasMov = false;
 			while ((line = bufferReader.readLine()) != null) {
-				stringBuilder.append(line).append(System.lineSeparator());
+				if(line.startsWith("seconds:")) {
+					int sec = Integer.parseInt(line.split(":")[1]);
+					seconds.set(sec);
+					hasSec = true;
+				}
+				else if(line.startsWith("moves:")) {
+					int mov = Integer.parseInt(line.split(":")[1]);
+					moves.set(mov);
+					hasMov = true;
+				}else
+					stringBuilder.append(line).append(System.lineSeparator());
 			}
+			if(!hasSec)
+				seconds.set(0);
+			if(!hasMov)
+				moves.set(0);
 			this.gameData.set(stringBuilder.toString());
 			bufferReader.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,6 +131,10 @@ public class PipeGameModel  {
 			PrintWriter saveFile = new PrintWriter(file);
 
 			saveFile.print(this.gameData.get());
+			
+			saveFile.println("seconds:" + seconds.get());
+			saveFile.println("moves:" + moves.get());
+
 
 			saveFile.close();
 		} catch (IOException e) {
@@ -112,6 +144,18 @@ public class PipeGameModel  {
 
 
 	}
+	
+	public void stopTimer() {
+		timer.cancel();
+		timer.purge();
+	}
+	
+	public void newTimer() {
+		timer = new Timer();
+		timer.scheduleAtFixedRate(secondsTimer(), 1000, 1000);
+	}
+	
+	
 	///////////////////////////IsGoalLogic////////////////////////////////////
 	
 	public boolean isGoalState() {
@@ -320,5 +364,11 @@ public class PipeGameModel  {
 		}
 	}
 
-
+	private TimerTask secondsTimer() {
+		return new TimerTask() {
+			public void run(){
+				Platform.runLater(()-> seconds.set(seconds.get() + 1));
+			}
+		};
+	}
 }

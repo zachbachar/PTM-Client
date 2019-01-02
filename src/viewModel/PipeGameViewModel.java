@@ -25,6 +25,8 @@ public class PipeGameViewModel  {
 	public IntegerProperty themeType;
 	public BooleanProperty isGoal;
 	public BooleanProperty redraw;
+	public IntegerProperty moves;
+	public IntegerProperty seconds;
 	
 	public PipeGameViewModel(PipeGameModel _pgm, ClientModel _client) {
 		pgm = _pgm;
@@ -43,6 +45,10 @@ public class PipeGameViewModel  {
 		isGoal.bind(pgm.isGoal);
 		redraw = new SimpleBooleanProperty();
 		redraw.set(false);
+		moves = new SimpleIntegerProperty(0);
+		moves.bindBidirectional(_pgm.moves);
+		seconds = new SimpleIntegerProperty(0);
+		seconds.bindBidirectional(_pgm.seconds);
 	}
 	
 	public PipeGameThemeModel getTheme() {
@@ -58,6 +64,14 @@ public class PipeGameViewModel  {
 		theme.loadMedia();
 		redraw.set(!redraw.get());
 		theme.playMusic();
+	}
+	
+	public void stopTimer() {
+		pgm.stopTimer();
+	}
+	
+	public void newTimer() {
+		pgm.newTimer();
 	}
 	
 	public void muteSound() {

@@ -35,8 +35,10 @@ public class MainWindowController implements Initializable {
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
 	@FXML
-	Label movesLabel;
-	Integer movesCounter = 0;
+	Label movesLabel, secondsLabel;
+	//Integer movesCounter = 0;
+	IntegerProperty moves;
+	IntegerProperty seconds;
 	StringProperty gameData;
 	StringProperty solution;
 	StringProperty errorMessage;
@@ -78,6 +80,10 @@ public class MainWindowController implements Initializable {
 		isGoal.bind(vm.isGoal);
 		redraw = new SimpleBooleanProperty();
 		vm.redraw.bindBidirectional(redraw);
+		moves = new SimpleIntegerProperty(0);
+		vm.moves.bindBidirectional(moves);
+		seconds = new SimpleIntegerProperty(0);
+		vm.seconds.bindBidirectional(seconds);
 		winningListener();
 
 		StringBuffer sb = new StringBuffer();
@@ -104,6 +110,14 @@ public class MainWindowController implements Initializable {
 		redraw.addListener((val, s, t) -> {
 			pipeGameDisplayer.redraw();
 		});
+		
+		moves.addListener((val, t, s) -> {
+			movesLabel.setText("" + moves.get());
+		});
+		
+		seconds.addListener((val, s ,t) -> {
+			secondsLabel.setText("" + seconds.get());
+		});
 
 		solution.addListener((val, s, t) -> {
 			Task<Void> task = new Task<Void>() {
@@ -125,7 +139,6 @@ public class MainWindowController implements Initializable {
 							}
 						}
 					}
-					vm.sendToServer(gameData.get());
 					return null;
 				}
 			};
@@ -139,8 +152,7 @@ public class MainWindowController implements Initializable {
 			int y = (int) (click.getY() / h);
 			System.out.println("clicked: " + x + "," + y);
 			if (!vm.isStartOrGoal(x, y)) {
-				movesCounter++;
-				movesLabel.setText(movesCounter.toString());
+				moves.set(moves.get() +1);
 			}
 			vm.rotatePipe(x, y);
 		});
@@ -188,7 +200,9 @@ public class MainWindowController implements Initializable {
 
 		if (choosen != null) {
 			System.out.println(choosen.getName());
+			vm.stopTimer();
 			vm.loadGame(choosen.getAbsolutePath());
+			vm.newTimer();
 		}
 	}
 
@@ -226,6 +240,7 @@ public class MainWindowController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (newValue) {
+					vm.stopTimer();
 					alertWonMessage();
 				} else if (newValue == null) {
 					return;

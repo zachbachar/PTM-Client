@@ -40,6 +40,18 @@
          <children>
             <Label fx:id="movesLabel" prefHeight="22.0" prefWidth="43.0" text="0"  />
          </children>
+         <children>
+            <Label prefHeight="22.0" text="Time: " />
+         </children>
+         <children>
+            <Label fx:id="secondsLabel" prefHeight="22.0" text="0" />
+         </children>
+         <children>
+            <Label prefHeight="22.0" text=" " />
+         </children>
+         <children>
+            <Label prefHeight="22.0" text="Seconds" />
+         </children>
       </HBox>
    </bottom>
 </BorderPane>

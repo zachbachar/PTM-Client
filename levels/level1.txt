@@ -1,4 +1,6 @@
--L|-g
-|J-F-
--- J7
-s-|-7
+s |F
+|7|7
+|L-7
+J|-g
+seconds:19
+moves:6
